@@ -22,8 +22,7 @@ import {
   Clock,
   Layers,
   CheckCircle2,
-  AlertTriangle,
-  Settings
+  AlertTriangle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -80,16 +79,6 @@ const alertDistribution = [
   { name: 'Rolling Stock', value: 20, color: '#3b82f6' },
   { name: 'Human Factor', value: 15, color: '#10b981' },
   { name: 'Weather', value: 5, color: '#8b5cf6' },
-];
-
-const systemHealthData = [
-  { time: '00:00', cpu: 32, mem: 45, latency: 120 },
-  { time: '04:00', cpu: 28, mem: 42, latency: 115 },
-  { time: '08:00', cpu: 65, mem: 72, latency: 240 },
-  { time: '12:00', cpu: 58, mem: 68, latency: 190 },
-  { time: '16:00', cpu: 82, mem: 88, latency: 310 },
-  { time: '20:00', cpu: 45, mem: 55, latency: 160 },
-  { time: '23:59', cpu: 35, mem: 48, latency: 130 },
 ];
 
 const COLORS = ['#ef4444', '#f97316', '#3b82f6', '#10b981', '#8b5cf6'];
@@ -155,10 +144,6 @@ export default function Analytics() {
           <TabsTrigger value="maintenance" className="gap-2">
             <BarChart3 className="h-4 w-4" />
             Maintenance
-          </TabsTrigger>
-          <TabsTrigger value="system" className="gap-2">
-            <Settings className="h-4 w-4" />
-            System & Infra
           </TabsTrigger>
           <TabsTrigger value="regional" className="gap-2">
             <Layers className="h-4 w-4" />
@@ -371,77 +356,6 @@ export default function Analytics() {
                   </div>
                 </Card>
               </div>
-           </div>
-        </TabsContent>
-
-        <TabsContent value="system" className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <Card className="lg:col-span-2 border-gray-200/60 shadow-sm">
-                <CardHeader className="p-6 border-b">
-                  <CardTitle className="text-base font-bold">Server Load & Resource Usage</CardTitle>
-                  <CardDescription>Real-time compute and memory monitoring (24h)</CardDescription>
-                </CardHeader>
-                <CardContent className="p-6 h-[400px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={systemHealthData}>
-                      <defs>
-                        <linearGradient id="colorCpu" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
-                        </linearGradient>
-                        <linearGradient id="colorMem" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                      <XAxis dataKey="time" axisLine={false} tickLine={false} />
-                      <YAxis axisLine={false} tickLine={false} />
-                      <Tooltip />
-                      <Legend />
-                      <Area type="monotone" dataKey="cpu" name="CPU Usage (%)" stroke="#3b82f6" strokeWidth={2} fillOpacity={1} fill="url(#colorCpu)" />
-                      <Area type="monotone" dataKey="mem" name="Memory Usage (%)" stroke="#8b5cf6" strokeWidth={2} fillOpacity={1} fill="url(#colorMem)" />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </CardContent>
-              </Card>
-
-              <Card className="border-gray-200/60 shadow-sm">
-                <CardHeader className="p-6 border-b">
-                  <CardTitle className="text-base font-bold">API Performance Metrics</CardTitle>
-                  <CardDescription>Endpoint latency distribution</CardDescription>
-                </CardHeader>
-                <CardContent className="p-6 h-[400px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <ReLineChart data={systemHealthData}>
-                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                      <XAxis dataKey="time" axisLine={false} tickLine={false} />
-                      <YAxis axisLine={false} tickLine={false} />
-                      <Tooltip />
-                      <Line type="stepAfter" dataKey="latency" name="Avg Latency (ms)" stroke="#f59e0b" strokeWidth={3} dot={false} />
-                    </ReLineChart>
-                  </ResponsiveContainer>
-                </CardContent>
-              </Card>
-           </div>
-           
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                { title: 'Database Health', value: 'Healthy', details: 'PostgreSQL - 99.99% Up', icon: CheckCircle2, color: 'text-green-500' },
-                { title: 'Cache Hit Ratio', value: '94.2%', details: 'Redis Cluster Optimized', icon: Zap, color: 'text-yellow-500' },
-                { title: 'Auth Service', value: 'Stable', details: '0.2s Avg Response', icon: UsersIcon, color: 'text-blue-500' },
-              ].map((service, i) => (
-                <Card key={i} className="p-6 border-gray-200/60 shadow-sm flex items-center gap-4">
-                  <div className="p-3 bg-gray-50 rounded-lg">
-                    <service.icon className={`h-6 w-6 ${service.color}`} />
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-gray-900">{service.title}</h4>
-                    <p className="text-lg font-bold text-gray-900">{service.value}</p>
-                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{service.details}</p>
-                  </div>
-                </Card>
-              ))}
            </div>
         </TabsContent>
 
