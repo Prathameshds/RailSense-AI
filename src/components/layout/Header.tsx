@@ -67,10 +67,15 @@ export default function Header({ onMenuClick }: HeaderProps) {
           });
           const geoData = await geoRes.json();
           
-          const city = geoData.address.city || 
-                       geoData.address.town || 
-                       geoData.address.village || 
-                       geoData.address.suburb || 
+          const address = geoData.address || {};
+          const city = address.city || 
+                       address.town || 
+                       address.village || 
+                       address.city_district || 
+                       address.suburb || 
+                       address.municipality || 
+                       address.county || 
+                       address.state_district || 
                        'Current Location';
 
           setLocationData({
