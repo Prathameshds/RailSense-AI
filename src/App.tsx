@@ -15,7 +15,6 @@ import IncidentManagement from './pages/IncidentManagement';
 import Maintenance from './pages/Maintenance';
 import PredictiveMaintenance from './pages/PredictiveMaintenance';
 import Analytics from './pages/Analytics';
-import Administration from './pages/Administration';
 import AlertCenter from './pages/AlertCenter';
 
 // Placeholder components for other routes
@@ -42,12 +41,13 @@ export default function App() {
           <Route path="/incidents" element={<IncidentManagement />} />
           <Route path="/maintenance" element={<Maintenance />} />
           <Route path="/predictive" element={<PredictiveMaintenance />} />
-          <Route path="/analytics" element={<Administration />} />
-          <Route path="/administration" element={<Administration />} />
+          <Route path="/analytics" element={<Analytics />} />
           <Route path="/alerts" element={<AlertCenter />} />
           
-          <Route path="/reports" element={<Administration />} />
-          <Route path="/settings" element={<Administration />} />
+          <Route path="/reports" element={<PlaceholderPage title="System Reports" />} />
+          <Route path="/comms" element={<PlaceholderPage title="Communications" />} />
+          <Route path="/users" element={<PlaceholderPage title="User Management" />} />
+          <Route path="/settings" element={<PlaceholderPage title="System Settings" />} />
           
           <Route path="*" element={<Dashboard />} />
         </Routes>
