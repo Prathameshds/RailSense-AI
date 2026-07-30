@@ -1,6 +1,6 @@
 {
   "name": "RailSense AI",
   "description": "Enterprise-grade, AI-powered railway safety monitoring and predictive maintenance platform.",
-  "requestFramePermissions": [],
+  "requestFramePermissions": ["geolocation"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
