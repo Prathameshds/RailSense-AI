@@ -83,29 +83,31 @@ const alertDistribution = [
 
 const COLORS = ['#ef4444', '#f97316', '#3b82f6', '#10b981', '#8b5cf6'];
 
-export default function Analytics() {
+export default function Analytics({ isTabContent = false }: { isTabContent?: boolean }) {
   return (
-    <div className="space-y-8 pb-12">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Administration Analytics</h1>
-          <p className="text-gray-500 mt-1">Holistic performance monitoring and resource optimization dashboard.</p>
+    <div className={`space-y-8 ${isTabContent ? '' : 'p-6 max-w-[1600px] mx-auto pb-12'}`}>
+      {!isTabContent && (
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Administration Analytics</h1>
+            <p className="text-gray-500 mt-1">Holistic performance monitoring and resource optimization dashboard.</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button variant="outline" className="bg-white gap-2">
+              <Filter className="h-4 w-4" />
+              Filters
+            </Button>
+            <Button variant="outline" className="bg-white gap-2">
+              <Calendar className="h-4 w-4" />
+              July 2026
+            </Button>
+            <Button className="bg-blue-600 hover:bg-blue-700 gap-2">
+              <Download className="h-4 w-4" />
+              Generate PDF Report
+            </Button>
+          </div>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <Button variant="outline" className="bg-white gap-2">
-            <Filter className="h-4 w-4" />
-            Filters
-          </Button>
-          <Button variant="outline" className="bg-white gap-2">
-            <Calendar className="h-4 w-4" />
-            July 2026
-          </Button>
-          <Button className="bg-blue-600 hover:bg-blue-700 gap-2">
-            <Download className="h-4 w-4" />
-            Generate PDF Report
-          </Button>
-        </div>
-      </div>
+      )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
          {[
