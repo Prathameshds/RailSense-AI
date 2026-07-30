@@ -12,7 +12,8 @@ import {
   User, 
   LogOut, 
   Menu,
-  Activity
+  Activity,
+  Loader2
 } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { 
@@ -34,10 +35,60 @@ interface HeaderProps {
 
 export default function Header({ onMenuClick }: HeaderProps) {
   const [time, setTime] = useState(new Date());
+  const [locationData, setLocationData] = useState<{
+    city: string;
+    temp: number;
+    loading: boolean;
+  }>({
+    city: 'New Delhi',
+    temp: 28,
+    loading: true
+  });
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          // Fetch Weather using Open-Meteo (No API Key required)
+          const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`);
+          const weatherData = await weatherRes.json();
+          
+          // Fetch Location Name using Nominatim (OSM)
+          const geoRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`, {
+            headers: {
+              'User-Agent': 'RailSenseAI-App'
+            }
+          });
+          const geoData = await geoRes.json();
+          
+          const city = geoData.address.city || 
+                       geoData.address.town || 
+                       geoData.address.village || 
+                       geoData.address.suburb || 
+                       'Current Location';
+
+          setLocationData({
+            city,
+            temp: Math.round(weatherData.current_weather.temperature),
+            loading: false
+          });
+        } catch (error) {
+          console.error("Error fetching location/weather:", error);
+          setLocationData(prev => ({ ...prev, loading: false }));
+        }
+      }, (error) => {
+        console.error("Geolocation error:", error);
+        setLocationData(prev => ({ ...prev, loading: false }));
+      });
+    } else {
+      setLocationData(prev => ({ ...prev, loading: false }));
+    }
   }, []);
 
   return (
@@ -65,8 +116,14 @@ export default function Header({ onMenuClick }: HeaderProps) {
       <div className="flex items-center gap-3">
         <div className="hidden lg:flex items-center gap-4 px-4 py-1.5 bg-gray-50 rounded-full text-xs font-medium text-gray-600">
           <div className="flex items-center gap-2">
-            <Cloud className="h-4 w-4 text-blue-400" />
-            <span>28°C • New Delhi</span>
+            {locationData.loading ? (
+              <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
+            ) : (
+              <Cloud className="h-4 w-4 text-blue-400" />
+            )}
+            <span>
+              {locationData.loading ? 'Locating...' : `${locationData.temp}°C • ${locationData.city}`}
+            </span>
           </div>
           <div className="w-px h-4 bg-gray-200" />
           <span>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
@@ -82,13 +139,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </Tooltip>
 
           <div className="flex items-center gap-3 ml-2 pl-2 border-l">
-            <div className="hidden sm:flex flex-col items-end">
-              <span className="text-sm font-semibold">{currentUser.name}</span>
-              <span className="text-[10px] text-gray-500 uppercase tracking-wider">{currentUser.role}</span>
-            </div>
             <Avatar className="h-8 w-8 border border-gray-200">
               <AvatarImage src={currentUser.avatar} />
-              <AvatarFallback>RK</AvatarFallback>
+              <AvatarFallback>AI</AvatarFallback>
             </Avatar>
           </div>
         </div>
