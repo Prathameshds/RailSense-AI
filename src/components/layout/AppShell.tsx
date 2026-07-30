@@ -54,19 +54,6 @@ export default function AppShell({ children }: AppShellProps) {
           className="hidden lg:flex sticky top-16 h-[calc(100vh-64px)]"
         />
 
-        {/* System Timeline - Moved to left side */}
-        <aside className="hidden xl:flex w-80 bg-white border-r flex-col h-[calc(100vh-64px)] sticky top-16 order-first xl:order-none">
-          <div className="p-4 border-b flex items-center justify-between">
-            <h3 className="font-bold text-sm">System Timeline</h3>
-            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
-          </div>
-          <ScrollArea className="flex-1">
-             <div className="p-6">
-                <Timeline />
-             </div>
-          </ScrollArea>
-        </aside>
-
         {/* Main Content */}
         <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
           <ScrollArea className="flex-1">
@@ -89,6 +76,19 @@ export default function AppShell({ children }: AppShellProps) {
             </footer>
           </ScrollArea>
         </main>
+
+        {/* Right Info Panel - Optional but surfacing Phase 5 Alerts here */}
+        <aside className="hidden xl:flex w-80 bg-white border-l flex-col h-[calc(100vh-64px)] sticky top-16">
+          <div className="p-4 border-b flex items-center justify-between">
+            <h3 className="font-bold text-sm">System Timeline</h3>
+            <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
+          </div>
+          <ScrollArea className="flex-1">
+             <div className="p-6">
+                <Timeline />
+             </div>
+          </ScrollArea>
+        </aside>
       </div>
     </div>
   );
