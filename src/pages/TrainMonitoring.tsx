@@ -179,13 +179,10 @@ export default function TrainMonitoring() {
             <thead>
               <tr className="bg-gray-50/50 border-b border-gray-100">
                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Train Details</th>
-                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Driver</th>
                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Current Position</th>
-                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-center">Load / Capacity</th>
                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Speed</th>
                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Delay</th>
                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest">Status</th>
-                <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-center">Energy</th>
                 <th className="px-6 py-4 text-xs font-bold text-gray-400 uppercase tracking-widest text-right">Actions</th>
               </tr>
             </thead>
@@ -204,14 +201,6 @@ export default function TrainMonitoring() {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                       <div className="h-7 w-7 rounded-full bg-gray-100 flex items-center justify-center text-[10px] font-bold text-gray-600 border border-gray-200">
-                          {train.driver.split(' ').map(n => n[0]).join('')}
-                       </div>
-                       <p className="text-xs font-medium text-gray-700">{train.driver}</p>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
                     <div className="flex flex-col gap-1 text-xs text-gray-700">
                       <div className="flex items-center gap-1.5">
                         <MapPin className="h-3.5 w-3.5 text-gray-400" />
@@ -222,36 +211,6 @@ export default function TrainMonitoring() {
                         <span className="text-gray-300">•</span>
                         <span>Next: {train.nextMaintenance}</span>
                       </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="space-y-1.5 min-w-[120px]">
-                       <div className="flex justify-between text-[10px] font-bold text-gray-500">
-                          <span className="flex items-center gap-1">
-                             <Users className="h-2.5 w-2.5" />
-                             {train.load}% Occupied
-                          </span>
-                          <span className="flex items-center gap-1">
-                             <Activity className="h-2.5 w-2.5" />
-                             {train.energyLevel}% Energy
-                          </span>
-                       </div>
-                       <div className="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden flex">
-                          <div 
-                             className={cn(
-                                "h-full rounded-l-full transition-all duration-1000 border-r border-white/20",
-                                train.load > 90 ? "bg-red-500" : train.load > 70 ? "bg-amber-500" : "bg-blue-500"
-                             )} 
-                             style={{ width: `${train.load}%` }} 
-                          />
-                          <div 
-                             className={cn(
-                                "h-full rounded-r-full transition-all duration-1000",
-                                train.energyLevel < 30 ? "bg-red-400" : "bg-green-400"
-                             )} 
-                             style={{ width: `${100 - train.load}%` }} 
-                          />
-                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
@@ -278,23 +237,6 @@ export default function TrainMonitoring() {
                     )}>
                       {train.status}
                     </Badge>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex flex-col gap-1 w-24 mx-auto">
-                       <div className="flex items-center justify-between text-[9px] font-bold text-gray-400 uppercase">
-                          <span>Fuel</span>
-                          <span className={cn(
-                             train.energyLevel && train.energyLevel < 20 ? "text-red-500" : "text-gray-600"
-                          )}>{train.energyLevel || 0}%</span>
-                       </div>
-                       <Progress 
-                          value={train.energyLevel || 0} 
-                          className="h-1" 
-                          indicatorClassName={cn(
-                             train.energyLevel && train.energyLevel < 20 ? "bg-red-500" : "bg-blue-500"
-                          )}
-                       />
-                    </div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -333,7 +275,7 @@ export default function TrainMonitoring() {
               ))}
               {filteredTrains.length === 0 && !loading && (
                 <tr>
-                  <td colSpan={9} key="empty-trains" className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={6} key="empty-trains" className="px-6 py-12 text-center text-gray-500">
                     No active trains found matching search.
                   </td>
                 </tr>
