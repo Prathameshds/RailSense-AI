@@ -51,10 +51,6 @@ const navItems = [
   ]},
   { group: 'Administration', items: [
     { name: 'Analytics', icon: BarChart3, path: '/analytics' },
-    { name: 'Reports', icon: FileText, path: '/reports' },
-    { name: 'Communications', icon: MessageSquare, path: '/comms' },
-    { name: 'Users', icon: Users, path: '/users' },
-    { name: 'System Settings', icon: Settings, path: '/settings' },
   ]}
 ];
 
