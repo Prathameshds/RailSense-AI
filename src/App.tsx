@@ -44,11 +44,6 @@ export default function App() {
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/alerts" element={<AlertCenter />} />
           
-          <Route path="/reports" element={<PlaceholderPage title="System Reports" />} />
-          <Route path="/comms" element={<PlaceholderPage title="Communications" />} />
-          <Route path="/users" element={<PlaceholderPage title="User Management" />} />
-          <Route path="/settings" element={<PlaceholderPage title="System Settings" />} />
-          
           <Route path="*" element={<Dashboard />} />
         </Routes>
       </AppShell>
